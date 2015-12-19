@@ -94,7 +94,7 @@
                                         <animations/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="usJ-qn-TB8">
-                                        <rect key="frame" x="10" y="296" width="299.99999982682436" height="181"/>
+                                        <rect key="frame" x="10" y="296.00000334131778" width="299.99999982682436" height="181"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1zA-da-0K1">
@@ -193,7 +193,7 @@
                                         <animations/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="1ws-oZ-DKH">
-                                        <rect key="frame" x="10" y="296" width="299.99999982682436" height="181"/>
+                                        <rect key="frame" x="10" y="296.00000334131778" width="299.99999982682436" height="181"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Lt-jY-ll8">
@@ -302,7 +302,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" id="u3w-3x-tiB">
-                                        <rect key="frame" x="8" y="246" width="304" height="314.00000026727173"/>
+                                        <rect key="frame" x="8" y="246" width="304" height="314"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <subviews>
                                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Nvc-th-c0A">
@@ -362,7 +362,7 @@
                                                 <animations/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cck-md-UGC">
-                                                <rect key="frame" x="2" y="202.00000026727173" width="148" height="50"/>
+                                                <rect key="frame" x="2" y="202" width="148" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="14"/>
@@ -374,7 +374,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ndw-92-m0e">
-                                                <rect key="frame" x="2" y="256.00000026727173" width="300" height="50"/>
+                                                <rect key="frame" x="2" y="256" width="300" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="18"/>
@@ -386,7 +386,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t5B-zI-mmd">
-                                                <rect key="frame" x="154" y="202.00000026727173" width="148" height="50"/>
+                                                <rect key="frame" x="154" y="202" width="148" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="14"/>
@@ -851,7 +851,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Ev-aN-ysQ">
-                                        <rect key="frame" x="107.99999975121537" y="8" width="184" height="44"/>
+                                        <rect key="frame" x="107.99999949561472" y="8" width="184" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -875,7 +875,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="svG-E6-rzu">
-                                        <rect key="frame" x="107.99999975121533" y="8" width="184" height="44"/>
+                                        <rect key="frame" x="107.99999949561463" y="8" width="184" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>

@@ -7,6 +7,7 @@
 //
 
 #import "ClubDetailVC.h"
+#import "TableAvailibilityVC.h"
 
 @interface ClubDetailVC ()
 {
@@ -39,6 +40,8 @@
     //    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"back-button-image"]];
     //    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back-button-image"]];
     
+    [self SetViewAtLoad];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
     
     [self performSelector:@selector(zoomInToMyLocation)
@@ -51,6 +54,10 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+   
+}
+-(void)SetViewAtLoad{
     ClubDetailDict=[[NSMutableDictionary alloc]init];
     
     ClubDetailDict=[[NSUserDefaults standardUserDefaults]valueForKey:@"WoofrclubDetail"];
@@ -60,7 +67,7 @@
     self.title=[NSString stringWithFormat:@"%@",clubnameSTR];
     
     NSLog(@"%@",ClubDetailDict);
-
+    
     
     
     ClubIMGSCRL.layer.borderWidth=1.5;
@@ -73,11 +80,11 @@
     {
         UIImageView *Image=[[UIImageView alloc]initWithFrame:CGRectMake(i*ClubIMGSCRL.frame.size.width, 0, ClubIMGSCRL.frame.size.width, ClubIMGSCRL.frame.size.height)];
         
-            NSURL *urllinksTR= [NSURL URLWithString:[[NSString stringWithFormat:@"%@",[[ImgARY objectAtIndex:i] valueForKey:@"filename"]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSURL *urllinksTR= [NSURL URLWithString:[[NSString stringWithFormat:@"%@",[[ImgARY objectAtIndex:i] valueForKey:@"filename"]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         
-            AsyncImageView *beerImage = [[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, Image.frame.size.width, Image.frame.size.height)];
-            [beerImage loadImageFromURL:urllinksTR imageName:@""];
-            [Image addSubview:beerImage];
+        AsyncImageView *beerImage = [[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, Image.frame.size.width, Image.frame.size.height)];
+        [beerImage loadImageFromURL:urllinksTR imageName:@""];
+        [Image addSubview:beerImage];
         
         [ClubIMGSCRL addSubview:Image];
         
@@ -93,7 +100,7 @@
     
     
     //WHy Section
-
+    
     UILabel *WHYLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 5000)];
     WHYLBL.text=[NSString stringWithFormat:@"WHY WE LOVE %@",clubnameSTR];
     WHYLBL.textColor=[UIColor colorWithRed:186.0/255.0 green:159.0/255.0 blue:104.0/255.0 alpha:1.0];
@@ -105,7 +112,15 @@
     ScrlHEight=ScrlHEight+WHYLBL.frame.size.height+10;
     
     UILabel *WHYRLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 5000)];
-    WHYRLBL.text=[NSString stringWithFormat:@"%@",[ClubDetailDict valueForKey:@"description"]];
+    
+    NSString *strData=[NSString stringWithFormat:@"%@",[ClubDetailDict valueForKey:@"description"]];
+    
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:strData options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    //    NSLog(@"Decode String Value: %@", decodedString);
+    //    [discriptionTEXT loadHTMLString:[decodedString description] baseURL:nil];
+    
+    WHYRLBL.text=decodedString;
     WHYRLBL.textColor=[UIColor whiteColor]; //colorWithRed:186.0/255.0 green:159.0/255.0 blue:104.0/255.0 alpha:1.0];
     WHYRLBL.font=[UIFont systemFontOfSize:14.0];
     WHYRLBL.numberOfLines=100;
@@ -118,12 +133,12 @@
     LineIMG1.backgroundColor=[UIColor colorWithRed:186.0/255.0 green:159.0/255.0 blue:104.0/255.0 alpha:1.0];
     [ClubBackSCRL addSubview:LineIMG1];
     
-     ScrlHEight=ScrlHEight+LineIMG1.frame.size.height+10;
+    ScrlHEight=ScrlHEight+LineIMG1.frame.size.height+10;
     
-
+    
     //Music Section
     
- 
+    
     UILabel *MUSICLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 5000)];
     MUSICLBL.text=@"MUSIC";
     MUSICLBL.textColor=[UIColor colorWithRed:186.0/255.0 green:159.0/255.0 blue:104.0/255.0 alpha:1.0];
@@ -149,12 +164,12 @@
     [ClubBackSCRL addSubview:LineIMG2];
     
     ScrlHEight=ScrlHEight+LineIMG2.frame.size.height+10;
-     
-
+    
+    
     
     //Peak Night Section
     
-   
+    
     UILabel *PickNightLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 5000)];
     PickNightLBL.text=@"PEAK NIGHTS";
     PickNightLBL.textColor=[UIColor colorWithRed:186.0/255.0 green:159.0/255.0 blue:104.0/255.0 alpha:1.0];
@@ -180,12 +195,12 @@
     [ClubBackSCRL addSubview:LineIMG3];
     
     ScrlHEight=ScrlHEight+LineIMG3.frame.size.height+10;
-     
-   
+    
+    
     
     //PARTYGOERS SECTION
     
-
+    
     
     UILabel *PARTYGOERSLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 5000)];
     PARTYGOERSLBL.text=@"PARTYGOERS";
@@ -246,7 +261,7 @@
     mapView = [[MKMapView alloc] initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, (ViewWIdth-20)/2)];
     mapView.delegate=self;
     [ClubBackSCRL addSubview:mapView];
-                                                                     
+    
     
     ScrlHEight=ScrlHEight+mapView.frame.size.height+10;
     
@@ -255,7 +270,7 @@
     [ClubBackSCRL addSubview:LineIMG5];
     
     ScrlHEight=ScrlHEight+LineIMG5.frame.size.height+10;
-   
+    
     
     // opening section
     
@@ -289,15 +304,15 @@
     
     ScrlHEight=ScrlHEight+LineIMG6.frame.size.height+10;
     
-    UIButton *ratingBTN=[[UIButton alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 60)];
-    [ratingBTN setBackgroundImage:[UIImage imageNamed:@"btn_big_login_general.png"] forState:UIControlStateNormal];
-    [ratingBTN setTitle:@"GIVE RATINGS" forState:UIControlStateNormal];
-    [ratingBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    ratingBTN.titleLabel.font=[UIFont boldSystemFontOfSize:18.0];
-    [ratingBTN addTarget:self action:@selector(RatingBTNclick) forControlEvents:UIControlEventTouchUpInside];
-    [ClubBackSCRL addSubview:ratingBTN];
-    
-     ScrlHEight=ScrlHEight+ratingBTN.frame.size.height+10;
+    //    UIButton *ratingBTN=[[UIButton alloc]initWithFrame:CGRectMake(10, ScrlHEight, ViewWIdth-20, 60)];
+    //    [ratingBTN setBackgroundImage:[UIImage imageNamed:@"btn_big_login_general.png"] forState:UIControlStateNormal];
+    //    [ratingBTN setTitle:@"GIVE RATINGS" forState:UIControlStateNormal];
+    //    [ratingBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //    ratingBTN.titleLabel.font=[UIFont boldSystemFontOfSize:18.0];
+    //    [ratingBTN addTarget:self action:@selector(RatingBTNclick) forControlEvents:UIControlEventTouchUpInside];
+    //    [ClubBackSCRL addSubview:ratingBTN];
+    //
+    //     ScrlHEight=ScrlHEight+ratingBTN.frame.size.height+10;
     
     ClubBackSCRL.contentSize=CGSizeMake(ViewWIdth, ScrlHEight);
     
@@ -308,11 +323,10 @@
     MKPlacemark* marker = [[MKPlacemark alloc] initWithCoordinate:ctrpoint addressDictionary:nil];
     [mapView addAnnotation:marker];
     
-//    MKPointAnnotation *addAnnotation = [[MKPointAnnotation alloc] init];//:ctrpoint];
-//    addAnnotation.coordinate=ctrpoint;
-//    //[[mapView viewForAnnotation:addAnnotation]setImage:[UIImage imageNamed:@"ic_home_location.png"]];
-//    [mapView viewForAnnotation:addAnnotation];
-   
+    //    MKPointAnnotation *addAnnotation = [[MKPointAnnotation alloc] init];//:ctrpoint];
+    //    addAnnotation.coordinate=ctrpoint;
+    //    //[[mapView viewForAnnotation:addAnnotation]setImage:[UIImage imageNamed:@"ic_home_location.png"]];
+    //    [mapView viewForAnnotation:addAnnotation];
 }
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation;
 {
@@ -360,4 +374,26 @@
 }
 */
 
+- (IBAction)ButTicketBTN:(id)sender
+{
+    // 1 club
+    // 2 event
+    // 3 Pramotion
+    // 4 desco
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@"1" forKey:@"WooFrclubDetetct"];
+    
+    NSString *clubID=[NSString stringWithFormat:@"%@",[ClubDetailDict valueForKey:@"club_id" ]];
+    
+   
+    [[NSUserDefaults standardUserDefaults]setValue:ClubDetailDict forKey:@"WoofrclubDetail"];
+    
+    
+    [[NSUserDefaults standardUserDefaults]setValue:clubID forKey:@"bookCLUBIDWoofer"];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+    TableAvailibilityVC *dealVC1 = (TableAvailibilityVC *)[storyboard instantiateViewControllerWithIdentifier:@"TableAvailibilityVC"];
+    [self.navigationController pushViewController:dealVC1 animated:YES];
+
+}
 @end

@@ -16,6 +16,9 @@
     IBOutlet UIScrollView *ClubBackSCRL;
     IBOutlet UIScrollView *ClubIMGSCRL;
     
+    IBOutlet UIButton *ClubBookBTN;
+    
 }
+- (IBAction)ButTicketBTN:(id)sender;
 
 @end

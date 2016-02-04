@@ -17,11 +17,16 @@
     NSURLConnection *Mybookingconnection;
     NSMutableData *MybookingData;
     
+    NSURLConnection *Myrewardsconnection;
+    NSMutableData *MyrewardsData;
+    
     MBProgressHUD *HUD;
     
     IBOutlet UITableView *BookingTBL;
     
     IBOutlet UIImageView *waterMARKIMG;
+    
+    IBOutlet UIScrollView *SCRLBView;
 }
 - (IBAction)UpcomingBTNclick:(id)sender;
 - (IBAction)CompletedBTNclick:(id)sender;

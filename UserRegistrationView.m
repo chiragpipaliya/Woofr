@@ -68,8 +68,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     
     RegisSCR.contentSize=CGSizeMake(self.view.frame.size.width, LoginLBL.frame.origin.y+LoginLBL.frame.size.height+10);
     
-    NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:@"Have an account? Login here..."];
-    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:173.0/255.0 green:153.0/255.0 blue:91.0/255.0 alpha:1.0] range:NSMakeRange(16,14)];
+    NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:@"Have an account? Login here"];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:173.0/255.0 green:153.0/255.0 blue:91.0/255.0 alpha:1.0] range:NSMakeRange(16,11)];
     LoginLBL.attributedText=string;
     
     HUD = [[MBProgressHUD alloc]initWithView:self.view];
@@ -385,7 +385,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
         imagePicker.sourceType =
         UIImagePickerControllerSourceTypeCamera;
         imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
-        imagePicker.allowsEditing = NO;
+        imagePicker.allowsEditing = YES;
         [self presentViewController:imagePicker
                            animated:YES completion:nil];
     }
@@ -404,7 +404,7 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 162;
     imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePickerController.allowsEditing=NO;
+    imagePickerController.allowsEditing=YES;
     
     [self presentModalViewController:imagePickerController animated:YES];
     

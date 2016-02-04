@@ -7,6 +7,9 @@
 //
 
 #import "ExploreNightVC.h"
+#import "BookEventAvailibilityVC.h"
+#import "TableAvailibilityVC.h"
+#import "FiterVC.h"
 
 @interface ExploreNightVC ()
 {
@@ -15,6 +18,10 @@
     NSString *cityNAMe,*APIkeySTR;
     
     NSMutableArray *RecordARY;
+    
+    NSInteger *DetectFilter;
+    
+    BOOL FirstTIME;
     
 }
 @end
@@ -25,15 +32,27 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    FirstTIME =YES;
+    
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
     
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc]
-                                     initWithImage:[UIImage imageNamed:@"ic_header_close.png"]
-                                     style:UIBarButtonItemStylePlain
-                                     target:self action:@selector(CloseView)];
-    logoutButton.tintColor=[UIColor whiteColor];
+    UIBarButtonItem *CLOSEButton = [[UIBarButtonItem alloc]
+                                    initWithImage:[UIImage imageNamed:@"ic_header_close.png"]
+                                    style:UIBarButtonItemStylePlain
+                                    target:self action:@selector(CloseView)];
+    CLOSEButton.tintColor=[UIColor whiteColor];
     
-    self.navigationItem.leftBarButtonItem = logoutButton;
+    self.navigationItem.leftBarButtonItem = CLOSEButton;
+    
+    
+    UIBarButtonItem *FILTERButton = [[UIBarButtonItem alloc]
+                                     initWithImage:[UIImage imageNamed:@"ic_header_filter.png"]
+                                     style:UIBarButtonItemStylePlain
+                                     target:self action:@selector(filterView)];
+    FILTERButton.tintColor=[UIColor whiteColor];
+    
+    self.navigationItem.rightBarButtonItem = FILTERButton;
     
     cityNAMe = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"WoofrExploreNightTitle"]];
     self.title = cityNAMe;
@@ -46,14 +65,6 @@
     [HUD setDelegate:self];
     [HUD setLabelText:@"Loading...."];
     
-    
-    
-    
-    
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
     BTNCLub.layer.borderWidth=1.0;
     BTNCLub.layer .borderColor=[UIColor colorWithRed:155.0/255.0 green:130.0/255.0 blue:97.0/255.0 alpha:1.0].CGColor;
     
@@ -89,7 +100,52 @@
     [BTNRating addSubview:bottomBorderR];
     
     
-    [self ClubBTNclick:Nil];
+    
+    
+    
+    
+    
+}
+-(void)filterView
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+    FiterVC *dealVC1 = (FiterVC *)[storyboard instantiateViewControllerWithIdentifier:@"FiterVC"];
+    [self.navigationController pushViewController:dealVC1 animated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if(FirstTIME == YES)
+    {
+        [self ClubBTNclick:Nil];
+    }
+    else
+    {
+        if(BTNflag==1)
+        {
+            BTNDIscos.backgroundColor=[UIColor clearColor];
+            BTNRating.backgroundColor=[UIColor clearColor];
+            BTNCLub.backgroundColor=[UIColor colorWithRed:155.0/255.0 green:130.0/255.0 blue:97.0/255.0 alpha:1.0];
+            
+            BTNflag=1;
+            
+            APIkeySTR=@"club_list";
+            
+            [self CAllAPi];
+        }
+        else
+        {
+            BTNDIscos.backgroundColor=[UIColor colorWithRed:155.0/255.0 green:130.0/255.0 blue:97.0/255.0 alpha:1.0];
+            BTNRating.backgroundColor=[UIColor clearColor];
+            BTNCLub.backgroundColor=[UIColor clearColor];
+            
+            BTNflag=2;
+            
+            APIkeySTR=@"event_list";
+            
+            [self CAllAPi];
+        }
+    }
 }
 
 -(void)CloseView
@@ -182,16 +238,55 @@
     NSMutableDictionary *sendData = [[NSMutableDictionary alloc]init];
     
     
-    
-    //admin.vasundharavision.com/woofr/api/?action=rating_wise_list
-    //admin.vasundharavision.com/woofr/api/?action=disco_list&is_featured=0
-    //admin.vasundharavision.com/woofr/api/?action=club_list&is_featured=0
+    int long detectedfilter=[[NSUserDefaults standardUserDefaults] integerForKey:@"FilterWoofr"];
     
     [sendData setObject:APIkeySTR forKey:@"action"];
-    if(BTNflag == 1 || BTNflag == 2)
+    [sendData setObject:@"0" forKey:@"is_featured"];
+    if(BTNflag == 1)
     {
-        [sendData setObject:APIkeySTR forKey:@"is_featured"];
-//        [sendData setObject:APIkeySTR forKey:@"is_featured"];
+        if(detectedfilter==0)
+        {
+            [sendData setObject:@"popular" forKey:@"filter"];
+        }
+        else if (detectedfilter==1)
+        {
+            [sendData setObject:@"nearest" forKey:@"filter"];
+            
+            [sendData setObject:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Latitude" ]] forKey:@"latitude"];
+            [sendData setObject:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Longitude" ]] forKey:@"longitude"];
+        }
+        else if (detectedfilter==2)
+        {
+            [sendData setObject:@"recent" forKey:@"filter"];
+        }
+        else if (detectedfilter==3)
+        {
+            [sendData setObject:@"location" forKey:@"filter"];
+        }
+        
+    }
+    else if (BTNflag == 2)
+    {
+        if(detectedfilter==0)
+        {
+            [sendData setObject:@"popular" forKey:@"filter"];
+        }
+        else if (detectedfilter==1)
+        {
+            [sendData setObject:@"nearest" forKey:@"filter"];
+            
+            [sendData setObject:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Latitude" ]] forKey:@"latitude"];
+            [sendData setObject:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"Longitude" ]] forKey:@"longitude"];
+        }
+        else if (detectedfilter==2)
+        {
+            [sendData setObject:@"recent" forKey:@"filter"];
+        }
+        else if (detectedfilter==3)
+        {
+            [sendData setObject:@"location" forKey:@"filter"];
+        }
+
     }
     NSString *string =[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"WoofrExploreNightTitle"]];
     [sendData setObject:string forKey:@"city"];
@@ -260,6 +355,7 @@
         
         if([statusSTR isEqualToString:@"1"])
         {
+            FirstTIME=NO;
             RecordARY=[[NSMutableArray alloc]init];
             
             if(BTNflag==1)
@@ -281,6 +377,12 @@
             {
                 [self UpdateSCRL];
             }
+        }
+        else
+        {
+            FirstTIME=NO;
+            [containSCRL.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            [containSCRL setContentOffset:CGPointMake(0, 0) animated:NO];
         }
     }
 }
@@ -334,8 +436,8 @@
         }
         
         
-        UILabel *NameLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, IMAG.frame.size.width-(IMAG.frame.size.height-40-36)-20, 40)];
-        NameLBL.font=[UIFont boldSystemFontOfSize:15.0];
+        UILabel *NameLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, IMAG.frame.size.width-20, 40)];
+        NameLBL.font=[UIFont fontWithName:@"ProximaNova-Regular" size:18.0];
         if(BTNflag==1)
         {
             NameLBL.text=[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"club_name" ]];
@@ -348,119 +450,149 @@
         NameLBL.textColor=[UIColor whiteColor];
         [IMAG addSubview:NameLBL];
         
-        
-        float Rating=[[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"rating"]] floatValue];
-        float StarWidth=12;
-        int FullSTR=[[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"rating"]] intValue];
-        for (int m=0; m<5; m++)
-        {
-            UIImageView *starIMg=[[UIImageView alloc]initWithFrame:CGRectMake(StarWidth, IMAG.frame.size.height-30, 20, 20)];
-            starIMg.userInteractionEnabled=YES;
-            
-            
-            if(Rating == 0)
-            {
-                
-                starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
-            }
-            else if(Rating == 0.5)
-            {
-                if(m==0)
-                {
-                    //half image
-                    starIMg.image=[UIImage imageNamed:@"ic_rating_star_half.png"];
-                }
-                else
-                {
-                  starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
-                }
-            }
-            else
-            {
-                if(Rating==FullSTR)
-                {
-                    if(m<=FullSTR-1)
-                    {
-                        starIMg.image=[UIImage imageNamed:@"ic_rating_star_gold.png"];
-                    }
-                    else
-                    {
-                        starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
-                    }
-                }
-                else
-                {
-                    if(m<=FullSTR-1)
-                    {
-                        starIMg.image=[UIImage imageNamed:@"ic_rating_star_gold.png"];
-                    }
-                    else if (m==FullSTR)
-                    {
-                        starIMg.image=[UIImage imageNamed:@"ic_rating_star_half.png"];
-                    }
-                    else
-                    {
-                        starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
-                    }
-                }
-                
-            }
-            
-            [IMAG addSubview:starIMg];
-            
-            StarWidth=StarWidth+20+5;
-        }
+        /*
+         float Rating=[[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"rating"]] floatValue];
+         float StarWidth=12;
+         int FullSTR=[[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"rating"]] intValue];
+         for (int m=0; m<5; m++)
+         {
+         UIImageView *starIMg=[[UIImageView alloc]initWithFrame:CGRectMake(StarWidth, IMAG.frame.size.height-30, 20, 20)];
+         starIMg.userInteractionEnabled=YES;
+         
+         
+         if(Rating == 0)
+         {
+         
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
+         }
+         else if(Rating == 0.5)
+         {
+         if(m==0)
+         {
+         //half image
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_half.png"];
+         }
+         else
+         {
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
+         }
+         }
+         else
+         {
+         if(Rating==FullSTR)
+         {
+         if(m<=FullSTR-1)
+         {
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_gold.png"];
+         }
+         else
+         {
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
+         }
+         }
+         else
+         {
+         if(m<=FullSTR-1)
+         {
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_gold.png"];
+         }
+         else if (m==FullSTR)
+         {
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_half.png"];
+         }
+         else
+         {
+         starIMg.image=[UIImage imageNamed:@"ic_rating_star_white.png"];
+         }
+         }
+         
+         }
+         
+         [IMAG addSubview:starIMg];
+         
+         StarWidth=StarWidth+20+5;
+         }
+         
+         */
         
         //Do coding here for club and Raffles place & than Add detail Button
         
-                UIButton *CBOOkNowBTN = [[UIButton alloc]initWithFrame:CGRectMake(NameLBL.frame.size.width+10, NameLBL.frame.origin.y+5, (IMAG.frame.size.width-(NameLBL.frame.size.width+10)-5), 30)];
-                [CBOOkNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
-                [CBOOkNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
-                CBOOkNowBTN.tag=2000+i;
-                [CBOOkNowBTN addTarget:self action:@selector(CBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
-                [CBOOkNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                CBOOkNowBTN.titleLabel.font=[UIFont systemFontOfSize:15.0];
+        UIButton *CBOOkNowBTN = [[UIButton alloc]initWithFrame:CGRectMake(IMAG.frame.size.width-70, IMAG.frame.size.height-30, 60, 20)];
+        // [CBOOkNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
+        [CBOOkNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
+        CBOOkNowBTN.tag=2000+i;
+        [CBOOkNowBTN addTarget:self action:@selector(CBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
+        [CBOOkNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [CBOOkNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
+        
+        CBOOkNowBTN.titleLabel.font=[UIFont systemFontOfSize:9.0];
+        CBOOkNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
+        CBOOkNowBTN.layer.borderWidth=0.5;
         
         
         [NameLBL sizeToFit];
         
         if(BTNflag==1)
         {
-        NSString *TagSTR=[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"tag"]];
-        
-        if(TagSTR.length>2)
-        {
-            NSArray *timeArray = [TagSTR componentsSeparatedByString:@","];
+            NSString *TagSTR=[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:i]valueForKey:@"tag"]];
             
-            UIScrollView *SCRL=[[UIScrollView alloc]initWithFrame:CGRectMake(10, IMAG.frame.size.height-70, IMAG.frame.size.width-20, 30)];
-            
-            float TagLBLWidth=0;
-            
-            for(int i=0; i<timeArray.count;i++)
+            if(TagSTR.length>2)
             {
-                UILabel *tagLBL=[[UILabel alloc]initWithFrame:CGRectMake(TagLBLWidth, 0, 5000, 30)];
-                tagLBL.text=[NSString stringWithFormat:@"  %@  ",[timeArray objectAtIndex:i]];
-                tagLBL.backgroundColor=[UIColor colorWithRed:33.0/255.0 green:31.0/255.0 blue:33.0/255.0 alpha:1.0];
-                tagLBL.layer.borderColor=[UIColor colorWithRed:156.0/255.0 green:131.0/255.0 blue:97.0/255.0 alpha:1.0].CGColor;
-                tagLBL.layer.borderWidth=1.0;
-                tagLBL.textColor=[UIColor whiteColor];
-                tagLBL.font=[UIFont systemFontOfSize:12.0];
+                NSArray *timeArray = [TagSTR componentsSeparatedByString:@","];
                 
-                [tagLBL sizeToFit];
+                UIScrollView *SCRL=[[UIScrollView alloc]initWithFrame:CGRectMake(10, IMAG.frame.size.height-35, IMAG.frame.size.width-85, 15)];
                 
-                [SCRL addSubview:tagLBL];
+                float TagLBLWidth=0;
                 
-                CGRect tagFRM = tagLBL.frame;
-                tagFRM.size.height=30;
-                tagLBL.frame=tagFRM;
+                for(int i=0; i<timeArray.count;i++)
+                {
+                    UILabel *tagLBL=[[UILabel alloc]initWithFrame:CGRectMake(TagLBLWidth, 0, 5000, 20)];
+                    tagLBL.text=[NSString stringWithFormat:@"  %@  ",[timeArray objectAtIndex:i]];
+                    tagLBL.backgroundColor=[UIColor colorWithRed:33.0/255.0 green:31.0/255.0 blue:33.0/255.0 alpha:1.0];
+                    //                tagLBL.layer.borderColor=[UIColor colorWithRed:156.0/255.0 green:131.0/255.0 blue:97.0/255.0 alpha:1.0].CGColor;
+                    tagLBL.layer.borderWidth=1.0;
+                    tagLBL.textColor=[UIColor whiteColor];
+                    tagLBL.font=[UIFont systemFontOfSize:12.0];
+                    
+                    tagLBL.layer.borderColor=[UIColor whiteColor].CGColor;
+                    tagLBL.layer.borderWidth=0.5;
+                    tagLBL.textColor=[UIColor whiteColor];
+                    tagLBL.font=[UIFont systemFontOfSize:9.0];
+                    
+                    [tagLBL sizeToFit];
+                    
+                    [SCRL addSubview:tagLBL];
+                    
+                    CGRect tagFRM = tagLBL.frame;
+                    tagFRM.size.height=15;
+                    tagLBL.frame=tagFRM;
+                    
+                    TagLBLWidth=TagLBLWidth+tagLBL.frame.size.width;
+                }
                 
-                TagLBLWidth=TagLBLWidth+tagLBL.frame.size.width+5;
+                SCRL.contentSize=CGSizeMake(TagLBLWidth, 15);
+                [IMAG addSubview:SCRL];
             }
-            
-            SCRL.contentSize=CGSizeMake(TagLBLWidth, 30);
-            [IMAG addSubview:SCRL];
         }
+        
+        UILabel *AddRessLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, IMAG.frame.size.height-20, IMAG.frame.size.width-85, 15)];
+        if(BTNflag ==1)
+        {
+            AddRessLBL.text=[NSString stringWithFormat:@"CLUBS.%@",[[RecordARY objectAtIndex:i]valueForKey:@"address"]];
         }
+        else
+        {
+            AddRessLBL.text=[NSString stringWithFormat:@"EVENTS.%@",[[RecordARY objectAtIndex:i]valueForKey:@"address"]];
+        }
+        //AddRessLBL.backgroundColor=[UIColor colorWithRed:33.0/255.0 green:31.0/255.0 blue:33.0/255.0 alpha:1.0];
+        //                tagLBL.layer.borderColor=[UIColor colorWithRed:156.0/255.0 green:131.0/255.0 blue:97.0/255.0 alpha:1.0].CGColor;
+        //                tagLBL.layer.borderWidth=1.0;
+        //        tagLBL.layer.borderColor=[UIColor whiteColor].CGColor;
+        //        tagLBL.layer.borderWidth=0.5;
+        AddRessLBL.textColor=[UIColor whiteColor];
+        AddRessLBL.font=[UIFont systemFontOfSize:10.0];
+        [IMAG addSubview:AddRessLBL];
+        
         [IMAG addSubview:CBOOkNowBTN];
         [containSCRL addSubview:IMAG];
         
@@ -473,5 +605,42 @@
 -(void)CBookNowBTNclick:(id)sender
 {
     
+    UIButton *button1 = sender;
+    NSInteger RbuttonTag = button1.tag;
+    
+    NSLog(@"%li",RbuttonTag-2000);
+    
+    if(BTNflag ==1)
+    {
+        [[NSUserDefaults standardUserDefaults]setValue:@"1" forKey:@"WooFrclubDetetct"];
+        
+        NSString *clubID=[NSString stringWithFormat:@"%@",[[RecordARY objectAtIndex:RbuttonTag-2000]valueForKey:@"club_id" ]];
+        
+        NSMutableDictionary *tempDetailDict=[[NSMutableDictionary alloc]init];
+        tempDetailDict=[RecordARY objectAtIndex:(RbuttonTag-2000)];
+        
+        [[NSUserDefaults standardUserDefaults]setValue:tempDetailDict forKey:@"WoofrclubDetail"];
+        
+        
+        [[NSUserDefaults standardUserDefaults]setValue:clubID forKey:@"bookCLUBIDWoofer"];
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+        TableAvailibilityVC *dealVC1 = (TableAvailibilityVC *)[storyboard instantiateViewControllerWithIdentifier:@"TableAvailibilityVC"];
+        [self.navigationController pushViewController:dealVC1 animated:YES];
+        
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults]setValue:@"2" forKey:@"WooFrclubDetetct"];
+        
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[RecordARY objectAtIndex:(RbuttonTag-2000)] forKey:@"EventWoofrBookDetail"];
+        
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+        BookEventAvailibilityVC *dealVC1 = (BookEventAvailibilityVC *)[storyboard instantiateViewControllerWithIdentifier:@"BookEventAvailibilityVC"];
+        [self.navigationController pushViewController:dealVC1 animated:YES];
+        
+    }
 }
 @end

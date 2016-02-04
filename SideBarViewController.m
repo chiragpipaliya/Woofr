@@ -12,6 +12,9 @@
 #import <Social/Social.h>
 #import <Twitter/Twitter.h>
 #import <Accounts/Accounts.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+
 
 @interface SideBarViewController ()
 {
@@ -20,6 +23,8 @@
     NSArray *user_info;
     
     int x;
+    
+    BOOL sidebarMenuOpen;
     
 }
 @end
@@ -43,7 +48,7 @@
     //        [[NSUserDefaults standardUserDefaults]setValue:@"0" forKey:@"imagechanged"];
     //        [self.tableView reloadData];
     //    }
-    
+    [self.revealViewController.frontViewController.view setUserInteractionEnabled:NO];
     [self.tableView reloadData];
 }
 
@@ -57,13 +62,15 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     
-    
+ 
     
     
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_login_page.png"]];
     [tempImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView=tempImageView;
     
+    SWRevealViewController *revealController = [self revealViewController];
+    [revealController tapGestureRecognizer];
     
     
     menuItems = @[@"Profile",@"Explore", @"MyBooking", @"Reedem",@"InviteFriend", @"Notification",@"Setting",@"Logout"];
@@ -81,6 +88,12 @@
     
 }
 
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.revealViewController.frontViewController.view setUserInteractionEnabled:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -201,7 +214,7 @@
             lbl_home.textColor=[UIColor whiteColor];
         }
 //        lbl_home.font=[UIFont systemFontOfSize:16.0];
-                lbl_home.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+                lbl_home.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         lbl_home.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:lbl_home];
         
@@ -238,7 +251,7 @@
             lbl_book.textColor=[UIColor whiteColor];
         }
 //        lbl_book.font=[UIFont systemFontOfSize:16.0];
-                lbl_book.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+                lbl_book.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         lbl_book.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:lbl_book];
         
@@ -273,7 +286,7 @@
             lbl_reedem.textColor=[UIColor whiteColor];
         }
 //        lbl_reedem.font=[UIFont systemFontOfSize:16.0];
-                lbl_reedem.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+                lbl_reedem.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         lbl_reedem.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:lbl_reedem];
         
@@ -300,7 +313,7 @@
         
         UILabel *lbl_Invite=[[UILabel alloc]initWithFrame:CGRectMake(60, 15, self.view.frame.size.width-80, 24)];
         lbl_Invite.text=@"INVITE";
-        lbl_Invite.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+        lbl_Invite.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         if(detect==indexPath.row)
         {
             lbl_Invite.textColor=[UIColor colorWithRed:153.0/255.0 green:132.0/255.0 blue:98.0/255.0 alpha:1.0];
@@ -343,7 +356,7 @@
             lbl_Notif.textColor=[UIColor whiteColor];
         }
 //        lbl_Notif.font=[UIFont systemFontOfSize:16.0];
-        lbl_Notif.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+        lbl_Notif.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         lbl_Notif.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:lbl_Notif];
         
@@ -405,7 +418,7 @@
             lbl_Setting.textColor=[UIColor whiteColor];
         }
 //        lbl_Setting.font=[UIFont systemFontOfSize:16.0];
-        lbl_Setting.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+        lbl_Setting.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         lbl_Setting.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:lbl_Setting];
         
@@ -443,7 +456,7 @@
         logoutIMG.userInteractionEnabled=YES;
         
 //        logoutlbl.font=[UIFont systemFontOfSize:16.0];
-        logoutlbl.font=[UIFont fontWithName:@"ProximaNova-Bold" size:15.0];
+        logoutlbl.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:15.0];
         logoutlbl.textAlignment=NSTextAlignmentLeft;
         [cell addSubview:logoutlbl];
         [cell addSubview:logoutIMG];
@@ -482,7 +495,7 @@
 - (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
 {
     
-    if ([[segue identifier] isEqualToString:@"Sign Out"])
+    if ([[segue identifier] isEqualToString:@"Logout"])
     {
         if(x==0)
         {
@@ -796,13 +809,10 @@
     
     NSMutableDictionary *sendData = [[NSMutableDictionary alloc]init];
     
-    NSUserDefaults *fetchDefaultslogin = [NSUserDefaults standardUserDefaults];
-    
-    NSString *userId1=[NSString stringWithFormat:@"%@",[fetchDefaultslogin valueForKey:@"LOGINUSERID"]];
-    
+     NSString *uIDSTR= [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"WoofruserID"]];
     
     [sendData setObject:@"logout" forKey:@"action"];
-    [sendData setObject:userId1 forKey:@"user_id"];
+    [sendData setObject:uIDSTR forKey:@"user_id"];
     
     NSLog(@"%@",sendData);
     
@@ -864,12 +874,17 @@
         [gate_responce_dic setDictionary:[responceversionStr JSONValue]];
         
         NSLog(@"%@",gate_responce_dic);
-        NSString *statusstr=[NSString stringWithFormat:@"%@",[gate_responce_dic valueForKey:@"Status"]];
+        NSString *statusstr=[NSString stringWithFormat:@"%@",[gate_responce_dic valueForKey:@"status"]];
         if([statusstr isEqualToString:@"1"])
         {
             x=1;
             
-            [self performSegueWithIdentifier:@"Sign Out" sender:nil];
+            
+            [FBSDKAccessToken setCurrentAccessToken:nil];
+            [FBSDKProfile setCurrentProfile:nil];
+            
+
+            [self performSegueWithIdentifier:@"Logout" sender:nil];
         }
         
     }

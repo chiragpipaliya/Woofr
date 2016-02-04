@@ -10,7 +10,9 @@
 #import "EditProfileVC.h"
 
 @interface ProfileVC ()
-
+{
+    AsyncImageView *beerImage;
+}
 @end
 
 @implementation ProfileVC
@@ -39,14 +41,24 @@
     
     self.title=@"MY PROFILE";
     
+    
     ProfileIMG.layer.cornerRadius=ProfileIMG.frame.size.height/2;
     ProfileIMG.clipsToBounds=YES;
     
+    
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
     NSMutableDictionary *UserInfo=[[NSMutableDictionary alloc]init];
     
     NSUserDefaults *user=[[NSUserDefaults alloc]init];
     
     UserInfo=[user valueForKey:@"WoofrUSer"];
+    
+    [beerImage removeFromSuperview];
     
     EMailLBL.text=[NSString stringWithFormat:@"%@",[UserInfo valueForKey:@"user_email"]];
     MobileNo.text=[NSString stringWithFormat:@"%@-%@",[UserInfo valueForKey:@"country_code"],[UserInfo valueForKey:@"mobile_no"]];
@@ -55,12 +67,10 @@
     
     NSURL *urllinksTR= [NSURL URLWithString:[[NSString stringWithFormat:@"%@",[UserInfo valueForKey:@"user_image"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-    AsyncImageView *beerImage = [[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, ProfileIMG.frame.size.width, ProfileIMG.frame.size.height)];
+    beerImage = [[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, ProfileIMG.frame.size.width, ProfileIMG.frame.size.height)];
     [beerImage loadImageFromURL:urllinksTR imageName:@""];
     [ProfileIMG addSubview:beerImage];
 
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

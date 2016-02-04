@@ -48,6 +48,13 @@
     
     titleSTR=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"WoofrExploreNightTitle"]];
     
+    
+    
+    SearchTF.placeholder=@"Search for a club or event";
+   
+    [SearchTF setValue:[UIColor whiteColor]
+           forKeyPath:@"_placeholderLabel.textColor"];
+    
     self.title=titleSTR;
     
 }
@@ -74,7 +81,7 @@
     
     [sendData setObject:@"search" forKey:@"action"];
     [sendData setObject:titleSTR forKey:@"city"];
-    [sendData setObject:[NSString stringWithFormat:@"%@",SearchBAR.text] forKey:@"keyword"];
+    [sendData setObject:[NSString stringWithFormat:@"%@",SearchTF.text] forKey:@"keyword"];
     
     
     for (id key in sendData)
@@ -287,7 +294,7 @@
             
             SCRLHEight=SCRLHEight+EnameLBL.frame.size.height+3;
             
-            NSString *dateSTR=[NSString stringWithFormat:@"%@",[[EventSearchRARY objectAtIndex:i]valueForKey:@"date" ]];
+            NSString *dateSTR=[NSString stringWithFormat:@"%@",[[EventSearchRARY objectAtIndex:i]valueForKey:@"start_date" ]];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -356,5 +363,66 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+- (IBAction)SearchcloseBTNclick:(id)sender
+{
+    SearchTF.text=@"";
+    [SearchTF resignFirstResponder];
+}
+//**********************************
+#pragma mark - textfield delegate set
+//**********************************
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    NSInteger nextTag = textField.tag;
+    
+    nextTag=nextTag+1;
+    
+    NSLog(@"%li",(long)nextTag);
+    // Try to find next responder
+    UIResponder* nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder)
+    {
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else
+    {
+        // Not found, so remove keyboard.
+        [textField resignFirstResponder];
+    }
+    
+    
+    
+    
+    NSString *str = @"         ";
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    if ([[str stringByTrimmingCharactersInSet: set] length] == 0)
+    {
+        // String contains only whitespace.
+    }
+    
+
+    
+    if(textField.text.length>0)
+    {
+    
+        NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+        if ([[SearchTF.text stringByTrimmingCharactersInSet: set] length] == 0)
+        {
+            // String contains only whitespace.
+        }
+        else
+        {
+            [SearchTF resignFirstResponder];
+            [self SearchAPIcall];
+        }
+    }
+    
+    return YES;
+}
 
 @end

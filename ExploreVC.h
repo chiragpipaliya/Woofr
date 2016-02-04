@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ExploreVC : UIViewController <MBProgressHUDDelegate>
+@interface ExploreVC : UIViewController <MBProgressHUDDelegate,UIGestureRecognizerDelegate>
 {
     IBOutlet UIScrollView *ExploreSCRview;
     IBOutlet UIImageView *ExplorebackImg;
@@ -41,7 +41,12 @@
     IBOutlet UIImageView *EventWaterMark;
     IBOutlet UIImageView *PramotionWaterMark;
     
+    IBOutlet UIPageControl *pagecontrol;
+    
+    BOOL pageControlBeingUsed;
+    
 }
+- (IBAction)changepage:(id)sender;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menubtn;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *SearchBTN;
 - (IBAction)SearchBTNclick:(id)sender;

@@ -30,6 +30,13 @@
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
+    
+//    SWRevealViewController *revealController = [self revealViewController];
+//    UITapGestureRecognizer *tap = [revealController tapGestureRecognizer];
+//    tap.delegate = self;
+//    
+//    [self.view addGestureRecognizer:tap];
+    
     HUD = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:HUD];
     [self.view bringSubviewToFront:HUD];

@@ -18,5 +18,9 @@
     NSMutableData *SearchData;
     
     MBProgressHUD *HUD;
+    
+    IBOutlet UIButton *closeBTN;
+    IBOutlet UITextField *SearchTF;
 }
+- (IBAction)SearchcloseBTNclick:(id)sender;
 @end

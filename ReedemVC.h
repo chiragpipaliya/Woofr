@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@interface ReedemVC : UIViewController <MBProgressHUDDelegate>
+@interface ReedemVC : UIViewController <MBProgressHUDDelegate,UIGestureRecognizerDelegate>
 {
     NSURLConnection *ReedemListconnection;
     NSMutableData *ReedemListData;

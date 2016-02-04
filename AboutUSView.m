@@ -59,7 +59,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     AboutUSText.frame=CGRectMake(10, FBBTN.frame.origin.y+FBBTN.frame.size.height+10, ViewWIdth-20, ViewHEight-(BOTTOMVIEW.frame.size.height+FBBTN.frame.origin.y+FBBTN.frame.size.height+20));
-     [AboutUSText addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [AboutUSText addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    });
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -86,17 +91,27 @@
 
 - (IBAction)WebsiteBTNclick:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.google.com"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.thewoofr.com"]];
 }
 
 - (IBAction)FBBtnclick:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/dipennarola"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/thewoofr"]];
 }
 
 - (IBAction)TWtBTNclick:(id)sender
 {
     
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/DipenNarola"]];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/DipenNarola"]];
+   // www.instagram.com/woofr_app
+
+    NSURL *instagramURL = [NSURL URLWithString:@"instagram://user?username=woofr_app"];
+    if ([[UIApplication sharedApplication] canOpenURL:instagramURL]) {
+        [[UIApplication sharedApplication] openURL:instagramURL];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.instagram.com/woofr_app"]];
+    }
 }
 @end

@@ -31,6 +31,8 @@
     int contrydetect;
     
     CGRect WfC,WfE,WfP;
+    
+
 }
 
 @end
@@ -64,10 +66,24 @@
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
+    
+//    SWRevealViewController *revealController = [self revealViewController];
+//    UITapGestureRecognizer *tap = [revealController tapGestureRecognizer];
+//    tap.delegate = self;
+//    
+//    
+//    [self.view addGestureRecognizer:tap];
+    
+    
+
+    
+    
+    
     //self.title=@"Explore";
     
-    CityBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+    CityBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 120, 44)];
     [CityBTN setTitle:@"SINGAPORE" forState:UIControlStateNormal];
+    [CityBTN setBackgroundImage:[UIImage imageNamed:@"ic_header_down_arrow.png"] forState:UIControlStateNormal];
     [CityBTN addTarget:self action:@selector(cityclick) forControlEvents:UIControlEventTouchUpInside];
     //[CityBTN sizeToFit];
     self.navigationItem.titleView = CityBTN;
@@ -122,7 +138,7 @@
 }
 -(void)cityclick
 {
-    [self LoadFilterView];
+    [self LoadFilterView1];
     
     
 }
@@ -296,6 +312,7 @@
                 UIImageView *waterIMG=[[UIImageView alloc]init];
                 waterIMG.frame=WfC;
                 waterIMG.image=[UIImage imageNamed:@"ic_watermark.png"];
+                clubSCR.contentSize=CGSizeMake(0, 0);
                 [clubSCR addSubview:waterIMG];
                 
             }
@@ -311,6 +328,7 @@
                 UIImageView *waterIMG=[[UIImageView alloc]init];
                 waterIMG.frame=WfE;
                 waterIMG.image=[UIImage imageNamed:@"ic_watermark.png"];
+                eventSCR.contentSize=CGSizeMake(0, 0);
                 [eventSCR addSubview:waterIMG];
             }
             if([NSString stringWithFormat:@"%@",ARYpromotionlist].length>5)
@@ -325,6 +343,7 @@
                 UIImageView *waterIMG=[[UIImageView alloc]init];
                 waterIMG.frame=WfP;
                 waterIMG.image=[UIImage imageNamed:@"ic_watermark.png"];
+                pramotionSCR.contentSize=CGSizeMake(0, 0);
                 [pramotionSCR addSubview:waterIMG];
             }
             
@@ -383,24 +402,24 @@
         
         
         
-        UILabel *NameLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, blackTIMG.frame.size.width-20, 40)];
+        UILabel *NameLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, blackTIMG.frame.size.width-85, 40)];
         NameLBL.font=[UIFont boldSystemFontOfSize:15.0];
         NameLBL.text=[NSString stringWithFormat:@"%@",[[ARYclublist objectAtIndex:i]valueForKey:@"club_name" ]];
         NameLBL.numberOfLines=2;
         NameLBL.textColor=[UIColor whiteColor];
         [blackTIMG addSubview:NameLBL];
         
-        UIButton *CBOOkNowBTN = [[UIButton alloc]initWithFrame:CGRectMake(NameLBL.frame.size.width-50, blackTIMG.frame.size.height-30, 60, 20)];
-        //[CBOOkNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
-        [CBOOkNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
-        CBOOkNowBTN.tag=2000+i;
-        [CBOOkNowBTN addTarget:self action:@selector(CBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
-        [CBOOkNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [CBOOkNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
-        
-        CBOOkNowBTN.titleLabel.font=[UIFont systemFontOfSize:9.0];
-        CBOOkNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
-        CBOOkNowBTN.layer.borderWidth=0.5;
+//        UIButton *CBOOkNowBTN = [[UIButton alloc]initWithFrame:CGRectMake(NameLBL.frame.size.width-50, blackTIMG.frame.size.height-30, 60, 20)];
+//        //[CBOOkNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
+//        [CBOOkNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
+//        CBOOkNowBTN.tag=2000+i;
+//        [CBOOkNowBTN addTarget:self action:@selector(CBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
+//        [CBOOkNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [CBOOkNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
+//        
+//        CBOOkNowBTN.titleLabel.font=[UIFont systemFontOfSize:9.0];
+//        CBOOkNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
+//        CBOOkNowBTN.layer.borderWidth=0.5;
         
         
         
@@ -510,8 +529,10 @@
         }
          */
         
-        UILabel *AddRessLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, blackTIMG.frame.size.height-20, blackTIMG.frame.size.width-25-(CBOOkNowBTN.frame.size.width), 15)];
-        AddRessLBL.text=[NSString stringWithFormat:@"CLUBS.%@",[[ARYclublist objectAtIndex:i]valueForKey:@"address"]];
+      //  UILabel *AddRessLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, blackTIMG.frame.size.height-20, blackTIMG.frame.size.width-25-(CBOOkNowBTN.frame.size.width), 15)];
+         UILabel *AddRessLBL=[[UILabel alloc]initWithFrame:CGRectMake(10, blackTIMG.frame.size.height-20, blackTIMG.frame.size.width-25, 15)];
+      //  AddRessLBL.text=[NSString stringWithFormat:@"CLUBS.%@",[[ARYclublist objectAtIndex:i]valueForKey:@"address"]];
+        AddRessLBL.text=[NSString stringWithFormat:@"%@",[[ARYclublist objectAtIndex:i]valueForKey:@"address"]];
         //AddRessLBL.backgroundColor=[UIColor colorWithRed:33.0/255.0 green:31.0/255.0 blue:33.0/255.0 alpha:1.0];
         //                tagLBL.layer.borderColor=[UIColor colorWithRed:156.0/255.0 green:131.0/255.0 blue:97.0/255.0 alpha:1.0].CGColor;
         //                tagLBL.layer.borderWidth=1.0;
@@ -522,13 +543,69 @@
         [blackTIMG addSubview:AddRessLBL];
         
         [blackTIMG addSubview:ClubdetailBTN];
-        [blackTIMG addSubview:CBOOkNowBTN];
+        //[blackTIMG addSubview:CBOOkNowBTN];
         [ClubIMG addSubview:blackTIMG];
         [clubSCR addSubview:ClubIMG];
     }
     
     clubSCR.contentSize=CGSizeMake(clubSCR.frame.size.width*ARYclublist.count, clubSCR.frame.size.height);
+    
+    pagecontrol.currentPage = 0;
+    pagecontrol.numberOfPages = ARYclublist.count;
 }
+//********************************************
+#pragma mark - Page Control Methods
+//********************************************
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    
+    UIScrollView *temp= (UIScrollView *)sender;
+    if(temp == clubSCR)
+    {
+    if (!pageControlBeingUsed) {
+        // Switch the indicator when more than 50% of the previous/next page is visible
+        CGFloat pageWidth = clubSCR.frame.size.width;
+        int page = floor((clubSCR.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+        pagecontrol.currentPage = page;
+//        NSString *page_str=[NSString stringWithFormat:@"%i",page];
+//        NSLog(@"%@",page_str);
+//        [[NSUserDefaults standardUserDefaults]setValue:page_str forKey:@"page"];
+    }
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    UIScrollView *temp= scrollView;
+    
+    if(temp == clubSCR)
+    {
+        pageControlBeingUsed = NO;
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    UIScrollView *temp= scrollView;
+    
+    if(temp == clubSCR)
+    {
+        pageControlBeingUsed = NO;
+    }
+}
+- (IBAction)changepage:(id)sender
+{
+    // Update the scroll view to the appropriate page
+    CGRect frame;
+    frame.origin.x = clubSCR.frame.size.width * pagecontrol.currentPage;
+    frame.origin.y = 0;
+    frame.size = clubSCR.frame.size;
+    [clubSCR scrollRectToVisible:frame animated:YES];
+    
+    // Keep track of when scrolls happen in response to the page control
+    // value changing. If we don't do this, a noticeable "flashing" occurs
+    // as the the scroll delegate will temporarily switch back the page
+    // number.
+    pageControlBeingUsed = YES;
+}
+
 -(void)ReloadEventSCRL
 {
     
@@ -536,11 +613,17 @@
     Imagewidth=5.0;
     for(int i=0;i<ARYeventlist.count;i++)
     {
-        UIImageView *EventIMG=[[UIImageView alloc]initWithFrame:CGRectMake(Imagewidth, 5, eventSCR.frame.size.height-40, eventSCR.frame.size.height-10)];
+        UIImageView *EventIMG=[[UIImageView alloc]initWithFrame:CGRectMake(Imagewidth, 5, eventSCR.frame.size.height*0.67, eventSCR.frame.size.height-10)];
         EventIMG.userInteractionEnabled=YES;
         EventIMG.backgroundColor=[UIColor clearColor];
         
-        NSURL *urllinksTR= [NSURL URLWithString:[[NSString stringWithFormat:@"%@",[[[[ARYeventlist objectAtIndex:i] valueForKey:@"event_images"] objectAtIndex:0] valueForKey:@"filename"]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSURL *urllinksTR;
+        NSMutableArray *aryTempImageList = [[ARYeventlist objectAtIndex:i] valueForKey:@"event_images"];
+        if(aryTempImageList.count == 0){
+            urllinksTR= [[NSBundle mainBundle] URLForResource:@"ic_login_logo@3x" withExtension:@".png"];
+        }else{
+            urllinksTR= [NSURL URLWithString:[[NSString stringWithFormat:@"%@",[[[[ARYeventlist objectAtIndex:i] valueForKey:@"event_images"] objectAtIndex:0] valueForKey:@"filename"]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        }
         
         
         
@@ -555,20 +638,21 @@
         
         
         
-        UIButton *BookNowBTN=[[UIButton alloc]initWithFrame:CGRectMake(blackTIMG.frame.size.width-50, 12, 45, 16)];
-        //[BookNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
-        [BookNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
-        BookNowBTN.tag=1000+i;
-        [BookNowBTN addTarget:self action:@selector(EBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
-        [BookNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        BookNowBTN.titleLabel.font=[UIFont systemFontOfSize:7.0];
-        [BookNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
-    
-        BookNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
-        BookNowBTN.layer.borderWidth=0.5;
+//        UIButton *BookNowBTN=[[UIButton alloc]initWithFrame:CGRectMake(blackTIMG.frame.size.width-50, 12, 45, 16)];
+//        //[BookNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
+//        [BookNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
+//        BookNowBTN.tag=1000+i;
+//        [BookNowBTN addTarget:self action:@selector(EBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
+//        [BookNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        BookNowBTN.titleLabel.font=[UIFont systemFontOfSize:7.0];
+//        [BookNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
+//    
+//        BookNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
+//        BookNowBTN.layer.borderWidth=0.5;
         
         
-        UILabel *NAmeLBL=[[UILabel alloc]initWithFrame:CGRectMake(5,0, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+//        UILabel *NAmeLBL=[[UILabel alloc]initWithFrame:CGRectMake(5,0, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+        UILabel *NAmeLBL=[[UILabel alloc]initWithFrame:CGRectMake(5,0, blackTIMG.frame.size.width-10, 15)];
         NAmeLBL.text=[NSString stringWithFormat:@"%@",[[ARYeventlist objectAtIndex:i]valueForKey:@"name"]];
         NAmeLBL.font=[UIFont systemFontOfSize:13.0];
         NAmeLBL.textColor=[UIColor whiteColor];
@@ -586,26 +670,29 @@
         NSString *finalDateSTr=[dateFormatter stringFromDate:yourDate];
         
         
-        UILabel *DateLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 15, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+//        UILabel *DateLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 15, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+        UILabel *DateLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 15, blackTIMG.frame.size.width-10, 15)];
         DateLBL.text=finalDateSTr;//[NSString stringWithFormat:@"%@",[[ARYeventlist objectAtIndex:i]valueForKey:@"date" ]];
         DateLBL.font=[UIFont systemFontOfSize:11.0];
         DateLBL.textColor=[UIColor whiteColor];
         [blackTIMG addSubview:DateLBL];
         
-        UILabel *clubnameLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 28, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+//        UILabel *clubnameLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 28, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+        UILabel *clubnameLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 28, blackTIMG.frame.size.width-10, 15)];
         clubnameLBL.text=[NSString stringWithFormat:@"%@",[[ARYeventlist objectAtIndex:i]valueForKey:@"club_name" ]];
         clubnameLBL.font=[UIFont systemFontOfSize:10.0];
-        clubnameLBL.textColor=[UIColor whiteColor];
+//        clubnameLBL.textColor=[UIColor whiteColor];
+        clubnameLBL.textColor=[UIColor colorWithRed:153.0/255.0 green:132.0/255.0 blue:98.0/255.0 alpha:1.0];
         [blackTIMG addSubview:clubnameLBL];
         
-        UIButton *EventDetailBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, blackTIMG.frame.size.width, blackTIMG.frame.size.height)];
+        UIButton *EventDetailBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, EventIMG.frame.size.width, EventIMG.frame.size.height)];
         [EventDetailBTN addTarget:self action:@selector(EventDetailClick:) forControlEvents:UIControlEventTouchUpInside];
         EventDetailBTN.tag=i+4000;
-        [blackTIMG addSubview:EventDetailBTN];
+        [EventIMG addSubview:EventDetailBTN];
         
         
         
-        [blackTIMG addSubview:BookNowBTN];
+//        [blackTIMG addSubview:BookNowBTN];
         [EventIMG addSubview:blackTIMG];
         [eventSCR addSubview:EventIMG];
         Imagewidth=Imagewidth+EventIMG.frame.size.width+5;
@@ -699,6 +786,13 @@
     NSLog(@"%li",RbuttonTag-1000);
 
     
+    // 1 club
+    // 2 event
+    // 3 Pramotion
+    // 4 desco
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@"2" forKey:@"WooFrclubDetetct"];
+    
     [[NSUserDefaults standardUserDefaults]setValue:[ARYeventlist objectAtIndex:(RbuttonTag-1000)] forKey:@"EventWoofrBookDetail"];
     
     
@@ -738,7 +832,7 @@
     Imagewidth=5.0;
     for(int i=0;i<ARYpromotionlist.count;i++)
     {
-        UIImageView *EventIMG=[[UIImageView alloc]initWithFrame:CGRectMake(Imagewidth, 5, pramotionSCR.frame.size.height-40, pramotionSCR.frame.size.height-10)];
+        UIImageView *EventIMG=[[UIImageView alloc]initWithFrame:CGRectMake(Imagewidth, 5, pramotionSCR.frame.size.height*0.72, pramotionSCR.frame.size.height-10)];
         EventIMG.userInteractionEnabled=YES;
         EventIMG.backgroundColor=[UIColor clearColor];
         
@@ -757,20 +851,21 @@
         
         
         
-        UIButton *BookNowBTN=[[UIButton alloc]initWithFrame:CGRectMake(blackTIMG.frame.size.width-50, 12, 45, 16)];
-        //[BookNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
-        [BookNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
-        BookNowBTN.tag=33000+i;
-        [BookNowBTN addTarget:self action:@selector(PBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
-        [BookNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        BookNowBTN.titleLabel.font=[UIFont systemFontOfSize:7.0];
-        [BookNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
+//        UIButton *BookNowBTN=[[UIButton alloc]initWithFrame:CGRectMake(blackTIMG.frame.size.width-50, 12, 45, 16)];
+//        //[BookNowBTN setBackgroundImage:[UIImage imageNamed:@"btn_small_login_general.png"] forState:UIControlStateNormal];
+//        [BookNowBTN setTitle:@"BOOK NOW" forState:UIControlStateNormal];
+//        BookNowBTN.tag=33000+i;
+//        [BookNowBTN addTarget:self action:@selector(PBookNowBTNclick:) forControlEvents:UIControlEventTouchUpInside];
+//        [BookNowBTN setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        BookNowBTN.titleLabel.font=[UIFont systemFontOfSize:7.0];
+//        [BookNowBTN setBackgroundColor:[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.5]];
+//        
+//        BookNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
+//        BookNowBTN.layer.borderWidth=0.5;
         
-        BookNowBTN.layer.borderColor=[UIColor whiteColor].CGColor;
-        BookNowBTN.layer.borderWidth=0.5;
         
-        
-        UILabel *NAmeLBL=[[UILabel alloc]initWithFrame:CGRectMake(5,0, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+//        UILabel *NAmeLBL=[[UILabel alloc]initWithFrame:CGRectMake(5,0, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+               UILabel *NAmeLBL=[[UILabel alloc]initWithFrame:CGRectMake(5,0, blackTIMG.frame.size.width-10, 15)];
         NAmeLBL.text=[NSString stringWithFormat:@"%@",[[ARYpromotionlist objectAtIndex:i]valueForKey:@"name"]];
         NAmeLBL.font=[UIFont systemFontOfSize:13.0];
         NAmeLBL.textColor=[UIColor whiteColor];
@@ -787,26 +882,29 @@
         
         NSString *finalDateSTr=[dateFormatter stringFromDate:yourDate];
         
-        UILabel *DateLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 15, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+ //       UILabel *DateLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 15, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+        UILabel *DateLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 15, blackTIMG.frame.size.width-10, 15)];
         DateLBL.text=finalDateSTr;//[NSString stringWithFormat:@"%@",[[ARYeventlist objectAtIndex:i]valueForKey:@"date" ]];
         DateLBL.font=[UIFont systemFontOfSize:11.0];
         DateLBL.textColor=[UIColor whiteColor];
         [blackTIMG addSubview:DateLBL];
         
-        UILabel *clubnameLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 28, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+//        UILabel *clubnameLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 28, blackTIMG.frame.size.width-(BookNowBTN.frame.size.width+10), 15)];
+        UILabel *clubnameLBL=[[UILabel alloc]initWithFrame:CGRectMake(5, 28, blackTIMG.frame.size.width-10, 15)];
         clubnameLBL.text=[NSString stringWithFormat:@"%@",[[ARYpromotionlist objectAtIndex:i]valueForKey:@"club_name" ]];
         clubnameLBL.font=[UIFont systemFontOfSize:10.0];
-        clubnameLBL.textColor=[UIColor whiteColor];
+ //       clubnameLBL.textColor=[UIColor whiteColor];
+        clubnameLBL.textColor=[UIColor colorWithRed:153.0/255.0 green:132.0/255.0 blue:98.0/255.0 alpha:1.0];
         [blackTIMG addSubview:clubnameLBL];
         
-        UIButton *EventDetailBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, blackTIMG.frame.size.width, blackTIMG.frame.size.height)];
-        [EventDetailBTN addTarget:self action:@selector(EventDetailClick:) forControlEvents:UIControlEventTouchUpInside];
-        EventDetailBTN.tag=i+4000;
-        [blackTIMG addSubview:EventDetailBTN];
+        UIButton *EventDetailBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, EventIMG.frame.size.width, EventIMG.frame.size.height)];
+        [EventDetailBTN addTarget:self action:@selector(PramotionDetailClick:) forControlEvents:UIControlEventTouchUpInside];
+        EventDetailBTN.tag=i+86000;
+        [EventIMG addSubview:EventDetailBTN];
         
         
         
-        [blackTIMG addSubview:BookNowBTN];
+//        [blackTIMG addSubview:BookNowBTN];
         [EventIMG addSubview:blackTIMG];
         [pramotionSCR addSubview:EventIMG];
         Imagewidth=Imagewidth+EventIMG.frame.size.width+5;
@@ -822,6 +920,44 @@
     NSInteger RbuttonTag = button1.tag;
     
     NSLog(@"%li",RbuttonTag-33000);
+    
+    
+    // 1 club
+    // 2 event
+    // 3 Pramotion
+    // 4 desco
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@"3" forKey:@"WooFrclubDetetct"];
+    
+    [[NSUserDefaults standardUserDefaults]setValue:[ARYpromotionlist objectAtIndex:(RbuttonTag-33000)] forKey:@"EventWoofrBookDetail"];
+    
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+    BookEventAvailibilityVC *dealVC1 = (BookEventAvailibilityVC *)[storyboard instantiateViewControllerWithIdentifier:@"BookEventAvailibilityVC"];
+    [self.navigationController pushViewController:dealVC1 animated:YES];
+}
+-(void)PramotionDetailClick:(id)sender
+{
+    UIButton *button1 = sender;
+    NSInteger RbuttonTag = button1.tag;
+    
+    NSLog(@"%li",RbuttonTag-86000);
+    
+    // 1 club
+    // 2 event
+    // 3 Pramotion
+    // 4 desco
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@"3" forKey:@"WooFrclubDetetct"];
+    
+    NSMutableDictionary *tempDetailDict=[[NSMutableDictionary alloc]init];
+    tempDetailDict=[ARYpromotionlist objectAtIndex:(RbuttonTag-86000)];
+    
+    [[NSUserDefaults standardUserDefaults]setValue:tempDetailDict forKey:@"WoofrEventDetail"];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+    EventDetailVC *dealVC1 = (EventDetailVC *)[storyboard instantiateViewControllerWithIdentifier:@"EventDetailVC"];
+    [self.navigationController pushViewController:dealVC1 animated:YES];
 }
 
 - (IBAction)SearchBTNclick:(id)sender
@@ -894,7 +1030,7 @@
     [self.navigationController pushViewController:dealVC1 animated:YES];
 }
 
-
+/*
 -(void)LoadFilterView
 {
 
@@ -916,6 +1052,8 @@
     
     UIView *ContVIew=[[UIView alloc]initWithFrame:CGRectMake(20, (((popover.frame.size.height)/2)-92.75), ViewWIdth-40, 185.5)];
     ContVIew.userInteractionEnabled=YES;
+    
+    //UIImageView
     
     float Vheight=0;
     
@@ -1040,14 +1178,195 @@
 //    }
     
 }
+*/
+-(void)LoadFilterView1
+{
+    
+    int long cdetect;
+    
+    cdetect=[[NSUserDefaults standardUserDefaults]integerForKey:@"FilterCountryindexwfr"];
+    
+    CityBTN.userInteractionEnabled=NO;
+    
+    popover=[[UIView alloc]initWithFrame:self.view.frame];
+    //popover.backgroundColor=[UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.50];
+    [self.view addSubview:popover];
+    
+    UIImageView *Bimgv=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, popover.frame.size.width, popover.frame.size.height)];
+    UIImage *Bimg=[UIImage imageNamed:@"bg_black_main.png"];
+    Bimgv.image=Bimg;//[self blurImage:Bimg withBottomInset:Bimgv.frame.size.height blurRadius:0];
+    [popover addSubview:Bimgv];
+    
+    
+    UIView *ContVIew=[[UIView alloc]initWithFrame:CGRectMake(20, (((popover.frame.size.height)/2)-100), ViewWIdth-40, 200)];
+    ContVIew.userInteractionEnabled=YES;
+    
+    UIImageView *backGGimage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ContVIew.frame.size.width, ContVIew.frame.size.height)];
+    backGGimage.image=[UIImage  imageNamed:@"Popupback.png"];
+    [ContVIew addSubview:backGGimage];
+    
+    //UIImageView
+    
+    float Vheight=0;
+    
+    UILabel *TITLELBL=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, ContVIew.frame.size.width, 40)];
+    TITLELBL.text=[NSString stringWithFormat:@"%@",CityBTN.titleLabel.text];
+    TITLELBL.font=[UIFont fontWithName:@"ProximaNova-Bold" size:18.0];
+    TITLELBL.textAlignment=NSTextAlignmentCenter;
+    TITLELBL.textColor=[UIColor whiteColor];
+    TITLELBL.userInteractionEnabled=YES;
+    //TITLELBL.backgroundColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0];
+    [ContVIew addSubview:TITLELBL];
+    
+    UILabel *seleLBL=[[UILabel alloc]initWithFrame:CGRectMake(0, 55, ContVIew.frame.size.width, 21)];
+    seleLBL.text=@"Select your country";
+    seleLBL.font=[UIFont fontWithName:@"ProximaNova-Semibold" size:16.0];
+    seleLBL.textAlignment=NSTextAlignmentCenter;
+    seleLBL.textColor=[UIColor whiteColor];
+    seleLBL.userInteractionEnabled=YES;
+    //TITLELBL.backgroundColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0];
+    [ContVIew addSubview:seleLBL];
+    
+    UIButton *DOneBTN=[[UIButton alloc]initWithFrame:CGRectMake(ContVIew.frame.size.width-60, 0, 60, 50)];
+    [DOneBTN setTitle:@"Done" forState:UIControlStateNormal];
+    DOneBTN.titleLabel.textColor=[UIColor whiteColor];
+    //[DOneBTN setBackgroundColor:[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0]];
+    [DOneBTN addTarget:self action:@selector(DoneBTNclick) forControlEvents:UIControlEventTouchUpInside];
+    [ContVIew addSubview:DOneBTN];
+    
+    UIImageView *closeIMG=[[UIImageView alloc]initWithFrame:CGRectMake(15, 15, 20, 20)];
+    closeIMG.image=[UIImage imageNamed:@"ic_header_close.png"];
+    closeIMG.userInteractionEnabled=YES;
+    [ContVIew addSubview:closeIMG];
+    
+    UIButton *closepop=[[UIButton alloc]initWithFrame:CGRectMake(10, 10, 30, 30)];
+    [closepop addTarget:self action:@selector(closepopBTNclick) forControlEvents:UIControlEventTouchUpInside];
+    [ContVIew addSubview:closepop];
+    
+    Vheight=Vheight+110;
+    
+//    UILabel *AllLBL=[[UILabel alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 45)];
+//    AllLBL.text=@"  All Countries";
+//    AllLBL.userInteractionEnabled=YES;
+//    AllLBL.font=[UIFont systemFontOfSize:16.0];
+//    AllLBL.textColor=[UIColor whiteColor];
+//    AllLBL.layer.borderWidth=1.0;
+//    AllLBL.layer.borderColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0].CGColor;
+//    [ContVIew addSubview:AllLBL];
+//    
+//    
+//    allCIMG=[[UIImageView alloc]initWithFrame:CGRectMake(AllLBL.frame.size.width-35, Vheight+15, 25, 15)];
+//    if(cdetect==0)
+//    {
+//        allCIMG.image=[UIImage imageNamed:@"ic_alert_right.png"];
+//    }
+//    allCIMG.userInteractionEnabled=YES;
+//    [ContVIew addSubview:allCIMG];
+//    
+//    UIButton *ALLBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 45)];
+//    [ALLBTN addTarget:self action:@selector(ALLBTNclick) forControlEvents:UIControlEventTouchUpInside];
+//    [ContVIew addSubview:ALLBTN];
+    
+   // Vheight=Vheight+AllLBL.frame.size.height;
+    
+    UILabel *SingaporeLBL=[[UILabel alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 45)];
+    SingaporeLBL.text=@"  Singapore, SG";
+    SingaporeLBL.userInteractionEnabled=YES;
+    SingaporeLBL.font=[UIFont systemFontOfSize:16.0];
+    SingaporeLBL.textColor=[UIColor whiteColor];
+//    SingaporeLBL.layer.borderWidth=1.0;
+//    SingaporeLBL.layer.borderColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0].CGColor;
+    UIImageView *l1img=[[UIImageView alloc]initWithFrame:CGRectMake(0, Vheight+44, ContVIew.frame.size.width, 1)];
+    l1img.backgroundColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0];
+    [ContVIew addSubview:SingaporeLBL];
+    [ContVIew addSubview:l1img];
+
+    
+    
+    singaporimg=[[UIImageView alloc]initWithFrame:CGRectMake(SingaporeLBL.frame.size.width-35, Vheight+15, 25, 15)];
+    if(cdetect==1)
+    {
+        singaporimg.image=[UIImage imageNamed:@"ic_alert_right.png"];
+    }
+    singaporimg.userInteractionEnabled=YES;
+    [ContVIew addSubview:singaporimg];
+    
+    UIButton *singaBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 45)];
+    [singaBTN addTarget:self action:@selector(singaBTNclick) forControlEvents:UIControlEventTouchUpInside];
+    [ContVIew addSubview:singaBTN];
+    
+    
+    Vheight=Vheight+SingaporeLBL.frame.size.height;
+    
+    UILabel *thaiLBL=[[UILabel alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 45)];
+    thaiLBL.text=@"  Thailand, TH";
+    thaiLBL.userInteractionEnabled=YES;
+    thaiLBL.font=[UIFont systemFontOfSize:16.0];
+    thaiLBL.textColor=[UIColor whiteColor];
+//    thaiLBL.layer.borderWidth=1.0;
+//    thaiLBL.layer.borderColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0].CGColor;
+    UIImageView *l2img=[[UIImageView alloc]initWithFrame:CGRectMake(0, Vheight+44, ContVIew.frame.size.width, 1)];
+    l2img.backgroundColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0];
+    [ContVIew addSubview:thaiLBL];
+    [ContVIew addSubview:l2img];
+    
+    
+    
+    thailandimg=[[UIImageView alloc]initWithFrame:CGRectMake(SingaporeLBL.frame.size.width-35, Vheight+15, 25, 15)];
+    if(cdetect==2)
+    {
+        thailandimg.image=[UIImage imageNamed:@"ic_alert_right.png"];
+    }
+    thailandimg.userInteractionEnabled=YES;
+    [ContVIew addSubview:thailandimg];
+    
+    UIButton *thaiBTN=[[UIButton alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 45)];
+    [thaiBTN addTarget:self action:@selector(thaiBTNclick) forControlEvents:UIControlEventTouchUpInside];
+    [ContVIew addSubview:thaiBTN];
+    
+    
+    
+    Vheight=Vheight+thaiLBL.frame.size.height;
+    
+//    UIImageView *lineimage=[[UIImageView alloc]initWithFrame:CGRectMake(0, Vheight, ContVIew.frame.size.width, 0.5)];
+//    lineimage.backgroundColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0];
+//    [ContVIew addSubview:lineimage];
+    
+//    ContVIew.layer.cornerRadius=8.0;
+//    ContVIew.clipsToBounds=YES;
+//    ContVIew.layer.borderWidth=1.0;
+//    ContVIew.layer.borderColor=[UIColor colorWithRed:147.0/255.0 green:129.0/255.0 blue:99.0/255.0 alpha:1.0].CGColor;
+    [popover addSubview:ContVIew];
+    
+    
+    
+    
+    //    if (!UIAccessibilityIsReduceTransparencyEnabled()) {
+    //        self.view.backgroundColor = [UIColor clearColor];
+    //
+    //        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    //        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    //        blurEffectView.frame = self.view.bounds;
+    //        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //
+    //        [self.view addSubview:blurEffectView];
+    //    }
+    //    else {
+    //        self.view.backgroundColor = [UIColor blackColor];
+    //    }
+    
+}
+-(void)closepopBTNclick
+{
+    CityBTN.userInteractionEnabled=YES;
+    [popover removeFromSuperview];
+}
 -(void)DoneBTNclick
 {
     [[NSUserDefaults standardUserDefaults]setInteger:contrydetect forKey:@"FilterCountryindexwfr"];
     
     [popover removeFromSuperview];
-    
-    
-    
+
     [self callAPIHOME];
 }
 -(void)ALLBTNclick

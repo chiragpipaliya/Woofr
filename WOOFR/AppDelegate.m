@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface AppDelegate ()
 
@@ -21,7 +23,21 @@
     
     [[NSUserDefaults standardUserDefaults]setInteger:1 forKey:@"selectedsidebarINDEX"];
     
-    [[NSUserDefaults standardUserDefaults]setInteger:0 forKey:@"FilterCountryindexwfr"];
+    
+    NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+    NSString *tzName = [timeZone name];
+    NSLog(@"%@",tzName);
+    
+    
+    if([tzName isEqualToString:@"Asia/Bangkok"])
+    {
+        [[NSUserDefaults standardUserDefaults]setInteger:2 forKey:@"FilterCountryindexwfr"];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults]setInteger:1 forKey:@"FilterCountryindexwfr"];
+    }
+    
     
     NSUserDefaults *Location = [NSUserDefaults standardUserDefaults];
     BOOL LOcation = [Location boolForKey:@"LocationUpdatingPermisiion"];
@@ -48,6 +64,15 @@
         }
         [locationManager startUpdatingLocation];
     }
+    
+    
+    
+    
+    //Facebook Login
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                             didFinishLaunchingWithOptions:launchOptions];
+    
+    
     NSUserDefaults *fetchDefaultslogin = [NSUserDefaults standardUserDefaults];
    BOOL LOgin=[fetchDefaultslogin boolForKey:@"WoofrLOGIN"];
     BOOL Installed=[fetchDefaultslogin boolForKey:@"WoofrInstalled"];
@@ -88,25 +113,35 @@
 
     }
     
-    
-    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
-    NSArray *fontNames;
-    NSInteger indFamily, indFont;
-    for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
-    {
-        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
-        fontNames = [[NSArray alloc] initWithArray:
-                     [UIFont fontNamesForFamilyName:
-                      [familyNames objectAtIndex:indFamily]]];
-        for (indFont=0; indFont<[fontNames count]; ++indFont)
-        {
-            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
-        }
-        
-    }
+//    
+//    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
+//    NSArray *fontNames;
+//    NSInteger indFamily, indFont;
+//    for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
+//    {
+//        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
+//        fontNames = [[NSArray alloc] initWithArray:
+//                     [UIFont fontNamesForFamilyName:
+//                      [familyNames objectAtIndex:indFamily]]];
+//        for (indFont=0; indFont<[fontNames count]; ++indFont)
+//        {
+//            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
+//        }
+//        
+//    }
+
     
     
     return YES;
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -125,6 +160,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -318,5 +355,14 @@
     //                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     //[errorAlert show];
 }
+//- (BOOL)application:(UIApplication *)application
+//            openURL:(NSURL *)url
+//  sourceApplication:(NSString *)sourceApplication
+//         annotation:(id)annotation {
+//    return [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                                          openURL:url
+//                                                sourceApplication:sourceApplication
+//                                                       annotation:annotation];
+//}
 
 @end

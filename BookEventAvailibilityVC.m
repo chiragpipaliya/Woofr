@@ -7,6 +7,7 @@
 //
 
 #import "BookEventAvailibilityVC.h"
+#import "EventBookingVC.h"
 
 @interface BookEventAvailibilityVC ()
 {
@@ -49,7 +50,7 @@
     self.title=@"BOOK NOW";
     
     
-    
+    selecttime=578;
     
     HUD = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:HUD];
@@ -202,6 +203,8 @@
     }
     
     [[NSUserDefaults standardUserDefaults]setValue:[dateARY objectAtIndex:selecteddate] forKey:@"WoofrEBOOkingDate"];
+    
+    selecttime=578;
     
     [self callTimeAPI];
     
@@ -567,7 +570,7 @@
         [self LoadTBLTYPE];
     }
     
-    
+    [self timeBTNclick:(UIButton *)[TimeCSCRL viewWithTag:700]];
 }
 
 -(void)timeBTNclick:(id)sender
@@ -575,6 +578,8 @@
     UIButton *button1 = sender;
     NSInteger RbuttonTag = button1.tag;
     
+    if(RbuttonTag-700 != selecttime)
+    {
     selecttime = RbuttonTag-700;
     
     
@@ -606,7 +611,7 @@
         [self LoadTBLTYPE];
     }
     
-    
+    }
     
 }
 
@@ -691,4 +696,20 @@
  }
  */
 
+- (IBAction)continueBTNclick:(id)sender
+{
+    if(Is_select==YES && selecttime!=578)
+    {
+        [[NSUserDefaults standardUserDefaults]setValue:selectedDictPACK forKey:@"WoofrEventPCk"];
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:STORYBOARD_TYPE bundle:nil];
+        EventBookingVC *dealVC1 = (EventBookingVC *)[storyboard instantiateViewControllerWithIdentifier:@"EventBookingVC"];
+        [self.navigationController pushViewController:dealVC1 animated:YES];
+    }
+    else
+    {
+        UIAlertView *Messgalert  = [[UIAlertView alloc]initWithTitle:nil message:@"Please Select your Booking Type." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [Messgalert show];
+    }
+}
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface EditProfileVC : UIViewController
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "MBProgressHUD.h"
+@interface EditProfileVC : UIViewController <MBProgressHUDDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate>
 {
     IBOutlet UIImageView *ProfileIMG;
     IBOutlet UIButton *ProfileIMGBTN;
@@ -29,6 +30,11 @@
     IBOutlet UIScrollView *EditPSCR;
     
     CGFloat animatedDistance;
+    
+    NSURLConnection *UpdatePConnection;
+    NSMutableData *UpdatePData;
+    
+    MBProgressHUD *HUD;
 }
 - (IBAction)ProfileImgbtnclick:(id)sender;
 - (IBAction)SaveBTNclick:(id)sender;

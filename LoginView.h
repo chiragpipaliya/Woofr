@@ -12,6 +12,7 @@
 {
     IBOutlet UIImageView *usernameIMG;
     IBOutlet UIImageView *PasswordIMG;
+    IBOutlet UIImageView *FacebookIMG;
     IBOutlet UIImageView *Backimg;
     IBOutlet UIScrollView *LoginContainSCRL;
     IBOutlet UITextField *userNameTF;

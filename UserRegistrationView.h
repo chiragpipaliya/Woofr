@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-@interface UserRegistrationView : UIViewController <MBProgressHUDDelegate,UIImagePickerControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate>
+@interface UserRegistrationView : UIViewController <MBProgressHUDDelegate,UIImagePickerControllerDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate>
 {
     IBOutlet UITextField *NameTF;
     IBOutlet UITextField *EmailTF;

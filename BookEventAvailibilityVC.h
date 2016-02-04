@@ -25,6 +25,9 @@
     
     NSURLConnection *availibilityconnection;
     NSMutableData *availibilityData;
+    
+    IBOutlet UIButton *continueBTN;
 
 }
+- (IBAction)continueBTNclick:(id)sender;
 @end

@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <MessageUI/MessageUI.h>
 
-@interface InviteFriendsVC : UIViewController
+@interface InviteFriendsVC : UIViewController <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
+
 {
+    IBOutlet UILabel *PromoLBL;
     
+    IBOutlet UIButton *EmailBTN;
+    IBOutlet UIButton *TExtBTN;
 }
+- (IBAction)EmailBTNclick:(id)sender;
+- (IBAction)TextBTnclick:(id)sender;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menubtn;
 @end

@@ -223,6 +223,15 @@
     NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
     [formatter1 setDateFormat:@"dd MMM yyyy"];
     
+    NSDateFormatter *fulldate = [[NSDateFormatter alloc] init];
+    [fulldate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    
+
+   
+    
+    
+    
     NSDate *dates=[formatter dateFromString:DateSTR];
     
     NSString *fDateSTR=[formatter1 stringFromDate:dates];
@@ -235,7 +244,7 @@
     NotificationLBL.font=[UIFont systemFontOfSize:14.0];
     
     
-    NSString *msgSTR=[NSString stringWithFormat:@"You have a booked a new request for %@ on %@ as a VIP booking at the rate of %@",[[NotificationARY objectAtIndex:indexPath.row]valueForKey:@"name"],fDateSTR,[[NotificationARY objectAtIndex:indexPath.row]valueForKey:@"price"]];
+    NSString *msgSTR=[NSString stringWithFormat:@"You have a booked a new request for %@ on %@ as a VIP booking at the rate of %@ ",[[NotificationARY objectAtIndex:indexPath.row]valueForKey:@"name"],fDateSTR,[[NotificationARY objectAtIndex:indexPath.row]valueForKey:@"price"]];
     NSString *clubNAmeSTR=[NSString stringWithFormat:@"%@",[[NotificationARY objectAtIndex:indexPath.row]valueForKey:@"name"]];
     NSRange rangeValue1 = [msgSTR rangeOfString:clubNAmeSTR options:NSCaseInsensitiveSearch];
     NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:msgSTR];
@@ -243,6 +252,47 @@
     [string addAttribute:NSFontAttributeName
                       value:[UIFont boldSystemFontOfSize:16.0]
                       range:rangeValue1];
+    
+    
+    NSString *CountTimeSTR=[NSString stringWithFormat:@"%@",[[NotificationARY objectAtIndex:indexPath.row]valueForKey:@"date"]];
+    NSDate *pastDate=[fulldate dateFromString:CountTimeSTR];
+    
+    NSTimeInterval secondsBetween = [[NSDate date] timeIntervalSinceDate:pastDate];
+    
+    NSString *timeDSTR;
+    
+    if(secondsBetween<60)
+    {
+        timeDSTR=[NSString stringWithFormat:@" %i sec ago.",(int)secondsBetween];
+    }
+    else if((secondsBetween/60)>1 && (secondsBetween/60)<60)
+    {
+        timeDSTR=[NSString stringWithFormat:@" %i min ago.",(int)(secondsBetween/60)];
+    }
+    else if ((secondsBetween/(3600))>1 && (secondsBetween/(3600))<24 )
+    {
+        timeDSTR=[NSString stringWithFormat:@" %i hours ago.",(int)(secondsBetween/3600)];
+    }
+    else if ((secondsBetween/(3600*24))>1 && (secondsBetween/(3600*24))<30)
+    {
+        timeDSTR=[NSString stringWithFormat:@" %i days ago.",(int)(secondsBetween/(3600*24))];
+    }
+    else
+    {
+        timeDSTR=[NSString stringWithFormat:@" %i Months ago.",(int)(secondsBetween/(3600*24*30))];
+    }
+    
+    
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    attachment.image = [UIImage imageNamed:@"ic_home_opening_time.png"];
+    
+    NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+    
+    NSMutableAttributedString *myString= [[NSMutableAttributedString alloc] initWithString:timeDSTR];
+    [string appendAttributedString:attachmentString];
+
+    [string appendAttributedString:myString];
+    
     
     NotificationLBL.attributedText=string;
     NotificationLBL.numberOfLines=500;
@@ -263,7 +313,12 @@
     }
     
     
+    
     cellHEight=backIMg.frame.size.height+30;
+    
+    
+   
+    
     
     UIImageView *lineimage=[[UIImageView alloc]initWithFrame:CGRectMake(0, cellHEight-1, self.view.frame.size.width, 1)];
     lineimage.backgroundColor=[UIColor colorWithRed:146.0/255.0 green:126.0/255.0 blue:96.0/255.0 alpha:1.0];
